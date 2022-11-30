@@ -3,7 +3,7 @@
 namespace App\Models\Repositories;
 
 
-use App\Models\Entities\Cliente;
+use App\Entities\Cliente;
 use Doctrine\ORM\EntityRepository;
 
 class ClienteRepositoryDoctrine extends EntityRepository implements ClienteRepository

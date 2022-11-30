@@ -20,21 +20,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Route::resource('acesso', AcessoController::class);
 
-Route::post('/acesso', [AcessoController::class, 'create',]);
-
+Route::post('/acesso', [AcessoController::class, 'create']);
 Route::get('/acesso/{email}', [AcessoController::class, 'show']);
-
 Route::get('/acesso', [AcessoController::class, 'index']);
-//
-//
-//Route::get('/acesso/{email}', [AcessoController::class, 'show',]);
-//Route::get('/acesso/{id}', [AcessoController::class, 'teste',]);
 
-//
-//
-//Route::get('/cliente', [ClienteController::class, 'index']);
+Route::post('/cliente', [ClienteController::class, 'create']);
+Route::get('/cliente/{email}', [ClienteController::class, 'show']);
+Route::get('/cliente', [ClienteController::class, 'index']);
+
+
 
 
 

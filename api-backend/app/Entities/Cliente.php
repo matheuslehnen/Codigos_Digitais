@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Models\Entities;
+namespace App\Entities;
 
-use Doctrine\ORM\Mapping AS ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Indaxia\OTR\Traits\Transformable;
 /**
  * @ORM\Entity
  * @ORM\Table(name="cliente")
@@ -16,23 +16,23 @@ class Cliente
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string")
      */
-    protected $cpfCnpj;
+    private $cpfCnpj;
 
     /**
      * @ORM\Column(type="string")
      */
-    protected $nome;
+    private $nome;
 
 
     /**
      * @ORM\OneToOne(targetEntity="Acesso")
      */
-    protected $acesso;
+    private $acesso;
 
     /**
      * @param $cpfCnpj

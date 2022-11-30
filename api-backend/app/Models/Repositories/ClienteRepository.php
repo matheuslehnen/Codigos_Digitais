@@ -2,7 +2,7 @@
 
 namespace App\Models\Repositories;
 
-use App\Models\Entities\Cliente;
+use App\Entities\Cliente;
 
 interface ClienteRepository
 {

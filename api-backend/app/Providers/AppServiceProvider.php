@@ -2,12 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Entities\Acesso;
-use App\Models\Entities\Cliente;
+use App\Entities\Acesso;
 use App\Models\Repositories\AcessoRepository;
-use App\Models\Repositories\AcessoRepositoryDoctrine;
-use App\Models\Repositories\ClienteRepository;
-use App\Models\Repositories\ClienteRepositoryDoctrine;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,10 +16,10 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(AcessoRepository::class, function($app) {
-            return new AcessoRepositoryDoctrine(
+            // This is what Doctrine's EntityRepository needs in its constructor.
+            return new AcessoRepository(
                 $app['em'],
-                $app['em']->getClassMetaData(Acesso::class),
-
+                $app['em']->getClassMetaData(Acesso::class)
             );
         });
         //$this->app->bind(ClienteRepository::class, function($app) {

@@ -1,9 +1,12 @@
 <?php
 
 
-namespace App\Models\Entities;
+namespace App\Entities;
 
-use Doctrine\ORM\Mapping AS ORM;
+
+use Doctrine\ORM\Mapping as ORM;
+
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="acesso")
@@ -16,17 +19,17 @@ class Acesso
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string")
      */
-    protected $email;
+    private $email;
 
     /**
      * @ORM\Column(type="string")
      */
-    protected $senha;
+    private $senha;
 
     /**
      * @param $id
@@ -85,6 +88,13 @@ class Acesso
     public function setSenha($senha): void
     {
         $this->senha = $senha;
+    }
+
+    public function __toString()
+    {
+        return 'id: ' . $this->getId() .
+            ' email: ' . $this->getEmail() .
+            ' senha: ' . $this->getSenha();
     }
 
 }

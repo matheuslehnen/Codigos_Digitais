@@ -19,9 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/acesso', [AcessoController::class, 'create']);
-
-Route::get('/acesso/{email}', [AcessoController::class, 'show']);
-
-Route::get('/acesso', [AcessoController::class, 'index']);
+//Route::post('/acesso', [AcessoController::class, 'create']);
+//
+//Route::get('/acesso/{email}', [AcessoController::class, 'show']);
+//
+//Route::get('/acesso', [AcessoController::class, 'index']);
 

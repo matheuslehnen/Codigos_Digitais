@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Entities\Cliente;
+use App\Entities\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -11,7 +11,7 @@ class ClienteController extends Controller
 {
 
 
-    protected $clienteRepository;
+    private $clienteRepository;
 
     /**
      * @param $clienteRepository
