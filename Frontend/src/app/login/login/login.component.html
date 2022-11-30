@@ -1,0 +1,38 @@
+<section>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayout.lt-sm="column" fxLayoutGap="50px" class="outer-container">
+        <span fxHide fxShow.lt-lg></span>
+        <mat-card class="login-box">
+            <mat-toolbar fxLayout="row" fxLayoutAlign="center center" color="accent">
+                <span class="mat-body-2">Área de Login</span>
+            </mat-toolbar>
+            <form fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm">
+                <mat-form-field appearance="outline">
+                    <mat-label class="text-imput">Email</mat-label>
+                    <input matInput #emailForm name="email" placeholder="Email" formControlName="email" (blur)="focusOnPass()">
+                    <mat-icon matSuffix>login</mat-icon>
+                    <mat-error *ngIf="this.emailForm.value == ''">
+                        Email é um campo <strong>obrigatório</strong>!
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label class="text-imput">Insira sua senha</mat-label>
+                    <input matInput #password name="password" [type]="hide ? 'password' : 'text'" mask="000000"
+                           [showMaskTyped]="false" placeholder="Insira sua senha" formControlName="password" (keyup)="focusOnButton()">
+                    <mat-error *ngIf="this.password.value == ''">
+                        Senha é um campo <strong>obrigatório</strong>!
+                    </mat-error>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+                <div fxLayout="column" fxLayoutAlign="stretch" fxLayoutGap="10px" class="form-buttons">
+                    <button #submitButton mat-raised-button [disabled]="!this.loginForm.valid" color="accent" type="button" (click)="loginSubmit(this.loginForm)">Login</button>
+                    <mat-divider></mat-divider>
+                    <button mat-button color="accent" type="button" (click)="getNewPassword()">Recupere sua senha</button>
+                </div>
+            </form>
+        </mat-card>
+        <span fxHide fxShow.lt-lg></span>
+    </div>
+</section>
