@@ -4,7 +4,6 @@
 namespace App\Models\Entities;
 
 use Doctrine\ORM\Mapping AS ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
  * @ORM\Table(name="acesso")
