@@ -26,6 +26,14 @@ export const CustomSnackBarOptions: MatSnackBarConfig = {
     panelClass: ['snackbar'],
 }
 
+// export const STATUS: string[] = [
+//     'PENDENTE',
+//     'ANDAMENTO',
+//     'AUTORIZADO',
+//     'CONCLUÍDO',
+//     'ENTREGUE'
+// ]
+
 export const ROUTES: RouteInfo[] = [
     { path: 'dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
     { path: 'usuario', title: 'Usuário',  icon: 'account_circle', class: '' },

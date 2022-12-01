@@ -1,1 +1,47 @@
-<p>orcamento works!</p>
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Cadastrar Orçamento</h4>
+                        <p class="card-category">Preencha os campos abaixo</p>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="orcamentoFormGroup">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="cliente" placeholder="Selecione um Cliente" formControlName="cliente">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-2">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="fornecedor" placeholder="Selecione um Fornecedor" formControlName="fornecedor">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-2">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="produto" placeholder="Selecione um Produto" formControlName="produto">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-2">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="quantidade" placeholder="Selecione a quantidade" formControlName="quantidade">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-2">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="status" placeholder="Selecione um Status" formControlName="status">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)="onSubmit(this.orcamentoFormGroup)">Cadastrar</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

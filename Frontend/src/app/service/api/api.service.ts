@@ -87,4 +87,16 @@ export class ApiService {
                 })
             )
     }
+
+    submitOrcamentoFormGroup(formData: FormGroup) : Observable<Response> {
+        console.log(formData.value);
+        return this.http.post<Response>(environment.url + '/api/orcamento', JSON.stringify(formData.value))
+            .pipe(
+                take(1),
+                catchError(error => {
+                    console.log(error);
+                    return EMPTY;
+                })
+            )
+    }
 }
