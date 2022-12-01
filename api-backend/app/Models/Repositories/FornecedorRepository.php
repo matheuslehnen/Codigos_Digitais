@@ -11,22 +11,22 @@ class UsuarioRepository extends EntityRepository
 {
 
 
-    public function getAll(): array
+    public function getAll()
     {
         return $this->findAll();
     }
 
-    public function getByEmail($email): Usuario
+    public function getByEmail($email)
     {
         return $this->findOneBy(['email' => $email]);
     }
 
-    public function save(Usuario $usuario): Usuario
+    public function save(Usuario $acesso)
     {
-        $this->getEntityManager()->persist($usuario);
+        $this->getEntityManager()->persist($acesso);
         $this->getEntityManager()->flush();
 
-        return $this->findOneBy(['email' => $usuario->getEmail()]);
+        return $acesso = $this->findOneBy(array('email' => $acesso->getEmail()));
     }
 
 

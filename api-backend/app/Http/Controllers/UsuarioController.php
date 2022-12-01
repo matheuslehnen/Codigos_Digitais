@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Acesso;
+use App\Entities\Usuario;
 use App\Models\Dto\AcessoDto;
 use App\Models\Repositories\AcessoRepository;
 use Illuminate\Http\Request;

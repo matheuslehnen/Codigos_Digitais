@@ -6,10 +6,10 @@
             <mat-toolbar fxLayout="row" fxLayoutAlign="center center" color="accent">
                 <span class="mat-body-2">Área de Login</span>
             </mat-toolbar>
-            <form fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm">
+            <form fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginFormGroup">
                 <mat-form-field appearance="outline">
                     <mat-label class="text-imput">Email</mat-label>
-                    <input matInput #emailForm name="email" placeholder="Email" formControlName="email" (blur)="focusOnPass()">
+                    <input matInput #emailForm name="email" placeholder="Email" formControlName="email" >
                     <mat-icon matSuffix>login</mat-icon>
                     <mat-error *ngIf="this.emailForm.value == ''">
                         Email é um campo <strong>obrigatório</strong>!
@@ -18,7 +18,7 @@
                 <mat-form-field appearance="outline">
                     <mat-label class="text-imput">Insira sua senha</mat-label>
                     <input matInput #senha name="senha" [type]="hide ? 'senha' : 'text'" mask="000000"
-                           [showMaskTyped]="false" placeholder="Insira sua senha" formControlName="senha" (keyup)="focusOnButton()">
+                           [showMaskTyped]="false" placeholder="Insira sua senha" formControlName="senha">
                     <mat-error *ngIf="this.senha.value == ''">
                         Senha é um campo <strong>obrigatório</strong>!
                     </mat-error>
@@ -28,7 +28,7 @@
                     </button>
                 </mat-form-field>
                 <div fxLayout="column" fxLayoutAlign="stretch" fxLayoutGap="10px" class="form-buttons">
-                    <button #submitButton mat-raised-button [disabled]="!this.loginForm.valid" color="accent" type="button" (click)="loginSubmit(this.loginForm)">Login</button>
+                    <button #submitButton mat-raised-button [disabled]="!this.loginFormGroup.valid" color="accent" type="button" (click)="loginSubmit(this.loginFormGroup)">Login</button>
                 </div>
             </form>
         </mat-card>

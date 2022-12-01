@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormGroup} from "@angular/forms";
 import {AuthService} from "../../service/auth/auth.service";
 
 @Component({
@@ -14,33 +14,19 @@ export class LoginComponent implements OnInit {
   @ViewChild('submitButton') submitButton: any;
   hide = true;
   enabled = false;
-  email: string;
-  loginForm: FormGroup;
+  loginFormGroup: FormGroup;
 
   constructor(
-      private authService: AuthService,
-      private formBuilder: FormBuilder
+      private authService: AuthService
   ) { }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required, Validators.maxLength(6)]],
-    });
-  }
-  loginSubmit(loginForm: FormGroup) {
-    this.authService.login(loginForm.value);
+    this.loginFormGroup = this.authService.getForm();
   }
 
-  focusOnPass() {
-    this.senha.nativeElement.focus();
+  loginSubmit(loginFormGroup: FormGroup) {
+    this.authService.login(loginFormGroup);
   }
 
-  focusOnButton() {
-    let pass = this.senha.nativeElement.value;
-    if (pass.length == 6) {
-      this.submitButton.focus();
-    }
-  }
 
 }

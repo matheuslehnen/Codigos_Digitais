@@ -52,8 +52,6 @@ export class ClienteService implements OnDestroy {
 
     converterEmEndereco(endereco: EnderecoDto) {
         this.clienteFormGroup.patchValue({
-            nome: this.clienteFormGroup.value?.name,
-            cpfCnpj: this.clienteFormGroup.value?.cpf,
             endereco: {
                 cep: endereco.cep,
                 logradouro: endereco.logradouro,
@@ -67,7 +65,7 @@ export class ClienteService implements OnDestroy {
     }
 
     submit(clienteFormGroup: FormGroup) {
-        this.subscription$ = this.apiService.submitClienteFormGroup(clienteFormGroup.value)
+        this.subscription$ = this.apiService.submitClienteFormGroup(clienteFormGroup)
             .subscribe(response => {
                 console.log(response);
                 this.clienteFormGroup.reset();
