@@ -3,9 +3,10 @@ import {ApiService} from "../api/api.service";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 
-import {LoginDto} from "../../shared/model/dto/loginDto";
 import {Acesso} from "../../shared/model/interface/acesso";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {SessionService} from "../session/session.service";
 
 
 @Injectable({
@@ -14,42 +15,53 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class AuthService implements OnDestroy {
 
     acesso: Acesso;
+    loginForm: FormGroup;
     subscription$: Subscription;
-    usersSubscription$: Subscription;
 
     constructor(
         private apiService: ApiService,
+        private formBuilder: FormBuilder,
         private router: Router,
+        private sessionService: SessionService,
         private snackBar: MatSnackBar
     ) {
+        this.loginForm = this.formBuilder.group({
+            email: ['', [Validators.required, Validators.email]],
+            senha: ['', [Validators.required, Validators.maxLength(6)]],
+        });
+    }
+
+    getForm(){
+        return this.loginForm;
     }
 
 
-    login(loginDto: LoginDto) {
-        this.subscription$ = this.apiService.usuarioLogin(loginDto)
+    login(loginFormGroup: FormGroup) {
+        this.subscription$ = this.apiService.submitLoginForm(loginFormGroup)
             .subscribe(
                 accessoDto => {
                     this.acesso = accessoDto;
-                    this.acesso.status ? this.router.navigate(['admin']) : this.snackBar.open('Usuário ou senha não encontrados!');
+
+                    if(this.acesso.status) {
+                        this.sessionService.savingOnSession(this.acesso)
+                        this.router.navigate(['admin/dashboard']);
+                        this.loginForm.reset();
+                    } else {
+                        this.snackBar.open('Usuário ou senha não encontrados!');
+                    }
+
                 }
             )
     }
 
-
-    // getAllUsers() {
-    //     this.usersSubscription$ = this.apiService.getAllUsers()
-    //         .subscribe(result => {
-    //             console.log(result);
-    //         });
-    // }
+    logout() {
+        this.sessionService.clear();
+        this.router.navigate(['/admin/login'])
+    }
 
     ngOnDestroy(): void {
         if (this.subscription$) {
             this.subscription$.unsubscribe();
         }
-    }
-
-    logout() {
-        this.router.navigate([''])
     }
 }

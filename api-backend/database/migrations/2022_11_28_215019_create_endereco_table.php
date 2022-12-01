@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClienteTable extends Migration
+class CreateEnderecoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateClienteTable extends Migration
      */
     public function up()
     {
-        Schema::create('cliente', function (Blueprint $table) {
+        Schema::create('endereco', function (Blueprint $table) {
             $table->id();
-            $table->string('cpf_cnpj');
-            $table->string('nome');
-            $table->string('telefone');
-            $table->unsignedBigInteger('endereco_id');
-            $table->foreign('endereco_id')->references('id')->on('endereco');
+            $table->string('cep');
+            $table->string('logradouro');
+            $table->bigInteger('numero');
+            $table->string('bairro');
+            $table->string('localidade');
+            $table->string('uf');
         });
     }
 
@@ -30,6 +31,6 @@ class CreateClienteTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cliente');
+        Schema::dropIfExists('endereco');
     }
 }

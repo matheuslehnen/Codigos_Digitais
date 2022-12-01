@@ -9,9 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="acesso")
+ * @ORM\Table(name="usuario")
  */
-class Acesso
+class Usuario
 {
 
     /**
@@ -88,13 +88,6 @@ class Acesso
     public function setSenha($senha): void
     {
         $this->senha = $senha;
-    }
-
-    public function __toString()
-    {
-        return 'id: ' . $this->getId() .
-            ' email: ' . $this->getEmail() .
-            ' senha: ' . $this->getSenha();
     }
 
 }

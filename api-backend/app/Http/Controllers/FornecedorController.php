@@ -2,30 +2,27 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Entities\Cliente;
 use App\Entities\Endereco;
-use App\Models\Repositories\ClienteRepository;
+use App\Entities\Fornecedor;
 use App\Models\Repositories\EnderecoRepository;
+use App\Models\Repositories\FornecedorRepository;
 use Illuminate\Http\Request;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-class ClienteController extends Controller
+class FornecedorController extends Controller
 {
-
-
-    private ClienteRepository $clienteRepository;
+    private FornecedorRepository $fornecedorRepository;
     private EnderecoRepository $enderecoRepository;
     private array $encoders;
     private array $normalizers;
     private Serializer $serializer;
 
-    public function __construct(ClienteRepository $clienteRepository, EnderecoRepository $enderecoRepository)
+    public function __construct(FornecedorRepository $fornecedorRepository, EnderecoRepository $enderecoRepository)
     {
-        $this->clienteRepository = $clienteRepository;
+        $this->fornecedorRepository = $fornecedorRepository;
         $this->enderecoRepository = $enderecoRepository;
         $this->encoders = array(new XmlEncoder(), new JsonEncoder());
         $this->normalizers = array(new GetSetMethodNormalizer());
@@ -35,15 +32,15 @@ class ClienteController extends Controller
 
     public function index()
     {
-        $clientesDto = $this->clienteRepository->getAll();
-        return $this->serializer->serialize($clientesDto, 'json');
+        $fornecedoresDto = $this->fornecedorRepository->getAll();
+        return $this->serializer->serialize($fornecedoresDto, 'json');
     }
 
 
     public function show(Request $request)
     {
-        $clienteDto = $this->clienteRepository->getByCpfCnpj($request['cpfCnpj']);
-        return $this->serializer->serialize($clienteDto, 'json');
+        $fornecedorDto = $this->fornecedorRepository->getByCpfCnpj($request['cpfCnpj']);
+        return $this->serializer->serialize($fornecedorDto, 'json');
     }
 
 
@@ -59,17 +56,15 @@ class ClienteController extends Controller
         );
         $endereco = $this->enderecoRepository->save($enderecoForm);
 
-        $cliente = new Cliente(
+
+        $fornecedor = new Fornecedor(
             $request['cpfCnpj'],
             $request['nome'],
             $request['telefone'],
             $endereco
         );
+        $fornecedorDto = $this->fornecedorRepository->save($fornecedor);
 
-        $clienteDto = $this->clienteRepository->save($cliente);
-
-        return $this->serializer->serialize($clienteDto, 'json');
+        return $this->serializer->serialize($fornecedorDto, 'json');
     }
-
-
 }

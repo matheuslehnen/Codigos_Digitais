@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Entities;
 
 
@@ -11,11 +12,12 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\JoinColumn;
 use App\Entities\Endereco;
 
+
 /**
  * @ORM\Entity
- * @ORM\Table(name="cliente")
+ * @ORM\Table(name="fornecedor")
  */
-class Cliente
+class Fornecedor
 {
 
     /**
@@ -42,8 +44,6 @@ class Cliente
 
     /**
      * @ORM\OneToOne(targetEntity="Endereco", cascade={"all"})
-     * @JoinColumn(name="endereco_id", referencedColumnName="id")
-     *
      */
     private $endereco;
 

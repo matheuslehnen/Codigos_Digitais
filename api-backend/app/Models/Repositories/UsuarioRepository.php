@@ -3,15 +3,15 @@
 namespace App\Models\Repositories;
 
 
-use App\Entities\Acesso;
+use App\Entities\Usuario;
 use Doctrine\ORM\EntityRepository;
 
 
-class AcessoRepository extends EntityRepository
+class UsuarioRepository extends EntityRepository
 {
 
 
-    public function getAll()
+    public function getAll(): array
     {
         return $this->findAll();
     }
@@ -21,12 +21,12 @@ class AcessoRepository extends EntityRepository
         return $this->findOneBy(['email' => $email]);
     }
 
-    public function save(Acesso $acesso)
+    public function save(Usuario $usuario): Usuario
     {
-        $this->getEntityManager()->persist($acesso);
+        $this->getEntityManager()->persist($usuario);
         $this->getEntityManager()->flush();
 
-        return $acesso = $this->findOneBy(array('email' => $acesso->getEmail()));
+        return $this->find($usuario->getId());
     }
 
 

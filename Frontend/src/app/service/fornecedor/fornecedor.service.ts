@@ -52,8 +52,6 @@ export class FornecedorService {
 
     converterEmEndereco(endereco: EnderecoDto) {
         this.fornecedorFormGroup.patchValue({
-            nome: this.fornecedorFormGroup.value?.name,
-            cpfCnpj: this.fornecedorFormGroup.value?.cpf,
             endereco: {
                 cep: endereco.cep,
                 logradouro: endereco.logradouro,

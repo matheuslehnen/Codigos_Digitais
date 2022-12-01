@@ -11,6 +11,7 @@ import {ProdutoComponent} from "./components/produto/produto.component";
 import {OrcamentoComponent} from "./components/orcamento/orcamento.component";
 import {LoginComponent} from "./components/login/login.component";
 import {UsuarioComponent} from "./components/usuario/usuario.component";
+import {AuthGuard} from "./service/guards/auth.guard";
 
 
 const routes: Routes = [
@@ -19,12 +20,11 @@ const routes: Routes = [
         path: "admin", component: AdminComponent, children: [
             {path: "login", component: LoginComponent},
             {path: 'usuario', component: UsuarioComponent},
-            {path: 'dashboard', component: DashboardComponent},
-            {path: "cliente", component: ClienteComponent},
-            {path: "fornecedor", component: FornecedorComponent},
-            {path: "produto", component: ProdutoComponent},
-            {path: "orcamento", component: OrcamentoComponent},
-
+            {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+            {path: "cliente", component: ClienteComponent, canActivate: [AuthGuard]},
+            {path: "fornecedor", component: FornecedorComponent, canActivate: [AuthGuard]},
+            {path: "produto", component: ProdutoComponent, canActivate: [AuthGuard]},
+            {path: "orcamento", component: OrcamentoComponent, canActivate: [AuthGuard]},
         ]
     },
     {path: "admin", loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)},
@@ -40,3 +40,5 @@ const routes: Routes = [
 })
 export class AppRoutingModule {
 }
+
+
