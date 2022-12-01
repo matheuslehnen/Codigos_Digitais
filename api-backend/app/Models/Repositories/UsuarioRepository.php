@@ -16,7 +16,7 @@ class UsuarioRepository extends EntityRepository
         return $this->findAll();
     }
 
-    public function getByEmail($email): Usuario
+    public function getByEmail($email)
     {
         return $this->findOneBy(['email' => $email]);
     }
@@ -26,7 +26,7 @@ class UsuarioRepository extends EntityRepository
         $this->getEntityManager()->persist($usuario);
         $this->getEntityManager()->flush();
 
-        return $this->findOneBy(['email' => $usuario->getEmail()]);
+        return $this->find($usuario->getId());
     }
 
 

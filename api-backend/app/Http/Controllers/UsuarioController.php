@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\Usuario;
 use App\Models\Dto\AcessoDto;
-use App\Models\Repositories\AcessoRepository;
+use App\Models\Repositories\UsuarioRepository;
 use Illuminate\Http\Request;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -12,17 +12,17 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 
-class AcessoController extends Controller
+class UsuarioController extends Controller
 {
 
-    private AcessoRepository $acessoRepository;
+    private UsuarioRepository $usuarioRepository;
     private array $encoders;
     private array $normalizers;
     private Serializer $serializer;
 
-    public function __construct(AcessoRepository $acessoRepository)
+    public function __construct(UsuarioRepository $usuarioRepository)
     {
-        $this->acessoRepository = $acessoRepository;
+        $this->usuarioRepository = $usuarioRepository;
         $this->encoders = array(new XmlEncoder(), new JsonEncoder());
         $this->normalizers = array(new GetSetMethodNormalizer());
         $this->serializer = new Serializer($this->normalizers, $this->encoders);
@@ -31,30 +31,41 @@ class AcessoController extends Controller
 
     public function index()
     {
-        $acessos = $this->acessoRepository->getAll();
-        return $this->serializer->serialize($acessos, 'json');
+        $usuarios = $this->usuarioRepository->getAll();
+        return $this->serializer->serialize($usuarios, 'json');
     }
 
 
     public function show(Request $request)
     {
-        $acesso = $this->acessoRepository->getByEmail($request['email']);
-        return $this->serializer->serialize($acesso, 'json');
+        $usuario = $this->usuarioRepository->getByEmail($request['email']);
+        return $this->serializer->serialize($usuario, 'json');
     }
 
 
     public function create(Request $request)
     {
-        $acesso = $this->acessoRepository->getByEmail($request['email']);
+        $usuario = new Usuario(
+            $request['email'],
+            $request['senha'],
+        );
+        $usuarioDto = $this->usuarioRepository->save($usuario);
 
-        if($acesso && $request->get('senha') == $acesso->getSenha()){
-            $acessoDto = new AcessoDto($acesso->getId(), true);
+        return $this->serializer->serialize($usuarioDto, 'json');
+
+    }
+
+    public function login(Request $request)
+    {
+        $usuario = $this->usuarioRepository->getByEmail($request['email']);
+
+        if($usuario != null && $request->get('senha') == $usuario->getSenha()){
+            $acessoDto = new AcessoDto($usuario->getId(), true);
         } else {
             $acessoDto = new AcessoDto(0, false);
         }
 
         return $this->serializer->serialize($acessoDto, 'json');
-
     }
 
 

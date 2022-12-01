@@ -3,30 +3,31 @@
 namespace App\Models\Repositories;
 
 
+use App\Entities\Endereco;
 use App\Entities\Usuario;
 use Doctrine\ORM\EntityRepository;
 
 
-class FornecedorRepository extends EntityRepository
+class EnderecoRepository extends EntityRepository
 {
 
 
-    public function getAll()
+    public function getAll(): array
     {
         return $this->findAll();
     }
 
-    public function getByEmail($email)
+    public function getById($id)
     {
-        return $this->findOneBy(['email' => $email]);
+        return $this->find($id);
     }
 
-    public function save(Usuario $acesso)
+    public function save(Endereco $endereco)
     {
-        $this->getEntityManager()->persist($acesso);
+        $this->getEntityManager()->persist($endereco);
         $this->getEntityManager()->flush();
 
-        return $acesso = $this->findOneBy(array('email' => $acesso->getEmail()));
+        return $this->find($endereco->getId());
     }
 
 

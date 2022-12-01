@@ -2,8 +2,15 @@
 
 namespace App\Entities;
 
+
 use Doctrine\ORM\Mapping as ORM;
-use Indaxia\OTR\Traits\Transformable;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\JoinColumn;
+use App\Entities\Endereco;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="cliente")
@@ -28,22 +35,32 @@ class Cliente
      */
     private $nome;
 
-
     /**
-     * @ORM\OneToOne(targetEntity="Acesso")
+     * @ORM\Column(type="string")
      */
-    private $acesso;
+    private $telefone;
 
     /**
+     * @ORM\OneToOne(targetEntity="Endereco", cascade={"all"})
+     * @JoinColumn(name="endereco_id", referencedColumnName="id")
+     *
+     */
+    private $endereco;
+
+
+    /**
+     * @param $id
      * @param $cpfCnpj
      * @param $nome
-     * @param $acesso
+     * @param $telefone
+     * @param $endereco
      */
-    public function __construct($cpfCnpj, $nome, $acesso)
+    public function __construct($cpfCnpj, $nome, $telefone, $endereco)
     {
         $this->cpfCnpj = $cpfCnpj;
         $this->nome = $nome;
-        $this->acesso = $acesso;
+        $this->telefone = $telefone;
+        $this->endereco = $endereco;
     }
 
     /**
@@ -97,17 +114,33 @@ class Cliente
     /**
      * @return mixed
      */
-    public function getAcesso()
+    public function getTelefone()
     {
-        return $this->acesso;
+        return $this->telefone;
     }
 
     /**
-     * @param mixed $acesso
+     * @param mixed $telefone
      */
-    public function setAcesso($acesso): void
+    public function setTelefone($telefone): void
     {
-        $this->acesso = $acesso;
+        $this->telefone = $telefone;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEndereco()
+    {
+        return $this->endereco;
+    }
+
+    /**
+     * @param mixed $endereco
+     */
+    public function setEndereco($endereco): void
+    {
+        $this->endereco = $endereco;
     }
 
 

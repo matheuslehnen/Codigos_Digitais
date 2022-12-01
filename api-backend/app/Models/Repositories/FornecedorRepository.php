@@ -3,30 +3,36 @@
 namespace App\Models\Repositories;
 
 
+use App\Entities\Fornecedor;
 use App\Entities\Usuario;
 use Doctrine\ORM\EntityRepository;
 
 
-class UsuarioRepository extends EntityRepository
+class FornecedorRepository extends EntityRepository
 {
 
 
-    public function getAll()
+    public function getAll(): array
     {
         return $this->findAll();
     }
 
-    public function getByEmail($email)
+    public function getById($id): Fornecedor
     {
-        return $this->findOneBy(['email' => $email]);
+        return $this->find($id);
     }
 
-    public function save(Usuario $acesso)
+    public function getByCpfCnpj($cpfCnpj)
     {
-        $this->getEntityManager()->persist($acesso);
+        return $this->findOneBy(['cpf_cnpj' => $cpfCnpj]);
+    }
+
+    public function save(Fornecedor $fornecedor): Fornecedor
+    {
+        $this->getEntityManager()->persist($fornecedor);
         $this->getEntityManager()->flush();
 
-        return $acesso = $this->findOneBy(array('email' => $acesso->getEmail()));
+        return $this->find($fornecedor->getId());
     }
 
 

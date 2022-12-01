@@ -3,31 +3,33 @@
 namespace App\Models\Repositories;
 
 
-use App\Entities\Usuario;
+use App\Entities\Cliente;
 use Doctrine\ORM\EntityRepository;
 
-
-class UsuarioRepository extends EntityRepository
+class ClienteRepository extends EntityRepository
 {
 
-
-    public function getAll(): array
+    public function getAll()
     {
         return $this->findAll();
     }
 
-    public function getByEmail($email): Usuario
+    public function getById($id): Cliente
     {
-        return $this->findOneBy(['email' => $email]);
+        return $this->find($id);
     }
 
-    public function save(Usuario $usuario): Usuario
+    public function getByCpfCnpj($cpfCnpj)
     {
-        $this->getEntityManager()->persist($usuario);
+        return $this->findOneBy(['cpf_cnpj' => $cpfCnpj]);
+    }
+
+    public function save(Cliente $cliente): Cliente
+    {
+        $this->getEntityManager()->persist($cliente);
         $this->getEntityManager()->flush();
 
-        return $this->findOneBy(['email' => $usuario->getEmail()]);
+        return $this->find($cliente->getId());
     }
-
 
 }

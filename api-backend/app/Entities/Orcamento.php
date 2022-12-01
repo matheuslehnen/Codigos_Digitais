@@ -5,13 +5,22 @@ namespace App\Entities;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\JoinColumn;
+use App\Entities\Endereco;
+use App\Entities\Cliente;
+use App\Entities\Fornecedor;
+use App\Entities\Produto;
 
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="usuario")
+ * @ORM\Table(name="orcamento")
  */
-class Usuario
+class Orcamento
 {
 
     /**
@@ -22,24 +31,48 @@ class Usuario
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne (targetEntity="Cliente", cascade={"all"})
+     * @JoinColumn(name="cliente_id", referencedColumnName="id")
      */
-    private $email;
+    private $cliente;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Fornecedor", cascade={"all"})
+     * @JoinColumn(name="fornecedor_id", referencedColumnName="id")
+     */
+    private $fornecedor;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Produto", cascade={"all"})
+     * @JoinColumn(name="produto_id", referencedColumnName="id")
+     */
+    private $produto;
+
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $quantidade;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $senha;
+    private $status;
 
     /**
      * @param $id
-     * @param $email
-     * @param $senha
+     * @param $cliente
+     * @param $fornecedor
+     * @param $quantidade
+     * @param $status
      */
-    public function __construct($email, $senha)
+    public function __construct($cliente, $fornecedor, $produto, $quantidade, $status)
     {
-        $this->email = $email;
-        $this->senha = $senha;
+        $this->cliente = $cliente;
+        $this->fornecedor = $fornecedor;
+        $this->produto = $produto;
+        $this->quantidade = $quantidade;
+        $this->status = $status;
     }
 
     /**
@@ -61,41 +94,84 @@ class Usuario
     /**
      * @return mixed
      */
-    public function getEmail()
+    public function getCliente()
     {
-        return $this->email;
+        return $this->cliente;
     }
 
     /**
-     * @param mixed $email
+     * @param mixed $cliente
      */
-    public function setEmail($email): void
+    public function setCliente($cliente): void
     {
-        $this->email = $email;
+        $this->cliente = $cliente;
     }
 
     /**
      * @return mixed
      */
-    public function getSenha()
+    public function getFornecedor()
     {
-        return $this->senha;
+        return $this->fornecedor;
     }
 
     /**
-     * @param mixed $senha
+     * @param mixed $fornecedor
      */
-    public function setSenha($senha): void
+    public function setFornecedor($fornecedor): void
     {
-        $this->senha = $senha;
+        $this->fornecedor = $fornecedor;
     }
 
-    public function __toString()
+    /**
+     * @return mixed
+     */
+    public function getProduto()
     {
-        return 'id: ' . $this->getId() .
-            ' email: ' . $this->getEmail() .
-            ' senha: ' . $this->getSenha();
+        return $this->produto;
     }
+
+    /**
+     * @param mixed $produto
+     */
+    public function setProduto($produto): void
+    {
+        $this->produto = $produto;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getQuantidade()
+    {
+        return $this->quantidade;
+    }
+
+    /**
+     * @param mixed $quantidade
+     */
+    public function setQuantidade($quantidade): void
+    {
+        $this->quantidade = $quantidade;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
+    }
+
 
 }
 

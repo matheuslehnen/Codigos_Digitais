@@ -9,9 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="endereco")
+ * @ORM\Table(name="produto")
  */
-class Endereco
+class Produto
 {
 
     /**
@@ -24,51 +24,24 @@ class Endereco
     /**
      * @ORM\Column(type="string")
      */
-    private $cep;
+    private $titulo;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private $logradouro;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $numero;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $bairro;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $localidade;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $uf;
+    private $estoque;
 
     /**
      * @param $id
-     * @param $cep
-     * @param $logradouro
-     * @param $numero
-     * @param $bairro
-     * @param $localidade
-     * @param $uf
+     * @param $titulo
+     * @param $estoque
      */
-    public function __construct($id, $cep, $logradouro, $numero, $bairro, $localidade, $uf)
+
+
+    public function __construct($titulo, $estoque)
     {
-        $this->id = $id;
-        $this->cep = $cep;
-        $this->logradouro = $logradouro;
-        $this->numero = $numero;
-        $this->bairro = $bairro;
-        $this->localidade = $localidade;
-        $this->uf = $uf;
+        $this->titulo = $titulo;
+        $this->estoque = $estoque;
     }
 
     /**
@@ -90,97 +63,33 @@ class Endereco
     /**
      * @return mixed
      */
-    public function getCep()
+    public function getTitulo()
     {
-        return $this->cep;
+        return $this->titulo;
     }
 
     /**
-     * @param mixed $cep
+     * @param mixed $titulo
      */
-    public function setCep($cep): void
+    public function setTitulo($titulo): void
     {
-        $this->cep = $cep;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLogradouro()
-    {
-        return $this->logradouro;
-    }
-
-    /**
-     * @param mixed $logradouro
-     */
-    public function setLogradouro($logradouro): void
-    {
-        $this->logradouro = $logradouro;
+        $this->titulo = $titulo;
     }
 
     /**
      * @return mixed
      */
-    public function getNumero()
+    public function getEstoque()
     {
-        return $this->numero;
+        return $this->estoque;
     }
 
     /**
-     * @param mixed $numero
+     * @param mixed $estoque
      */
-    public function setNumero($numero): void
+    public function setEstoque($estoque): void
     {
-        $this->numero = $numero;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBairro()
-    {
-        return $this->bairro;
-    }
-
-    /**
-     * @param mixed $bairro
-     */
-    public function setBairro($bairro): void
-    {
-        $this->bairro = $bairro;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLocalidade()
-    {
-        return $this->localidade;
-    }
-
-    /**
-     * @param mixed $localidade
-     */
-    public function setLocalidade($localidade): void
-    {
-        $this->localidade = $localidade;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUf()
-    {
-        return $this->uf;
-    }
-
-    /**
-     * @param mixed $uf
-     */
-    public function setUf($uf): void
-    {
-        $this->uf = $uf;
+        $this->estoque = $estoque;
     }
 
 

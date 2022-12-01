@@ -9,9 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="usuario")
+ * @ORM\Table(name="endereco")
  */
-class Usuario
+class Endereco
 {
 
     /**
@@ -24,22 +24,50 @@ class Usuario
     /**
      * @ORM\Column(type="string")
      */
-    private $email;
+    private $cep;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $senha;
+    private $logradouro;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $numero;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $bairro;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $localidade;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $uf;
 
     /**
      * @param $id
-     * @param $email
-     * @param $senha
+     * @param $cep
+     * @param $logradouro
+     * @param $numero
+     * @param $bairro
+     * @param $localidade
+     * @param $uf
      */
-    public function __construct($email, $senha)
+    public function __construct($cep, $logradouro, $numero, $bairro, $localidade, $uf)
     {
-        $this->email = $email;
-        $this->senha = $senha;
+        $this->cep = $cep;
+        $this->logradouro = $logradouro;
+        $this->numero = $numero;
+        $this->bairro = $bairro;
+        $this->localidade = $localidade;
+        $this->uf = $uf;
     }
 
     /**
@@ -61,41 +89,99 @@ class Usuario
     /**
      * @return mixed
      */
-    public function getEmail()
+    public function getCep()
     {
-        return $this->email;
+        return $this->cep;
     }
 
     /**
-     * @param mixed $email
+     * @param mixed $cep
      */
-    public function setEmail($email): void
+    public function setCep($cep): void
     {
-        $this->email = $email;
+        $this->cep = $cep;
     }
 
     /**
      * @return mixed
      */
-    public function getSenha()
+    public function getLogradouro()
     {
-        return $this->senha;
+        return $this->logradouro;
     }
 
     /**
-     * @param mixed $senha
+     * @param mixed $logradouro
      */
-    public function setSenha($senha): void
+    public function setLogradouro($logradouro): void
     {
-        $this->senha = $senha;
+        $this->logradouro = $logradouro;
     }
 
-    public function __toString()
+    /**
+     * @return mixed
+     */
+    public function getNumero()
     {
-        return 'id: ' . $this->getId() .
-            ' email: ' . $this->getEmail() .
-            ' senha: ' . $this->getSenha();
+        return $this->numero;
     }
+
+    /**
+     * @param mixed $numero
+     */
+    public function setNumero($numero): void
+    {
+        $this->numero = $numero;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBairro()
+    {
+        return $this->bairro;
+    }
+
+    /**
+     * @param mixed $bairro
+     */
+    public function setBairro($bairro): void
+    {
+        $this->bairro = $bairro;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocalidade()
+    {
+        return $this->localidade;
+    }
+
+    /**
+     * @param mixed $localidade
+     */
+    public function setLocalidade($localidade): void
+    {
+        $this->localidade = $localidade;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUf()
+    {
+        return $this->uf;
+    }
+
+    /**
+     * @param mixed $uf
+     */
+    public function setUf($uf): void
+    {
+        $this->uf = $uf;
+    }
+
 
 }
 
