@@ -1,0 +1,33 @@
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Cadastrar Usuário</h4>
+                        <p class="card-category">Preencha os campos abaixo</p>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="usuarioFormGroup">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="email" placeholder="Email" formControlName="email">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="senha" [type]="hide ? 'senha' : 'text'" mask="000000"
+                                               [showMaskTyped]="false" placeholder="Insira sua senha" formControlName="senha">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)="onSubmit(this.usuarioFormGroup)">Cadastrar</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

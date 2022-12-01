@@ -24,7 +24,7 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {MatTableModule} from "@angular/material/table";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatTabsModule} from "@angular/material/tabs";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
@@ -62,6 +62,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
+    ReactiveFormsModule,
+    FormsModule,
     ReactiveFormsModule,
   ]
 })

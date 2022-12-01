@@ -3,22 +3,31 @@ import {CommonModule,} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {Routes, RouterModule} from '@angular/router';
 
-import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
-import {LoginComponent} from "./login/login/login.component";
-import {DashboardComponent} from "./dashboard/dashboard.component";
+import {AdminComponent} from "./admin/admin/admin.component";
+import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {ClienteComponent} from "./components/cliente/cliente.component";
+import {FornecedorComponent} from "./components/fornecedor/fornecedor.component";
+import {ProdutoComponent} from "./components/produto/produto.component";
+import {OrcamentoComponent} from "./components/orcamento/orcamento.component";
+import {LoginComponent} from "./components/login/login.component";
+import {UsuarioComponent} from "./components/usuario/usuario.component";
+
 
 const routes: Routes = [
-    // {path: "", pathMatch: 'full', redirectTo: 'login'},
-    {path: "", component: LoginComponent},
-    {path: "", loadChildren: () => import('./login/login.module').then(m => m.LoginModule)},
-    {path: "dashboard", component: DashboardComponent},
-    {path: 'admin', component: AdminLayoutComponent,
-        children: [
-            {
-                path: '', loadChildren: () => import('./layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
-            }
+    {path: "", redirectTo: '/admin/login', pathMatch: 'full', component: LoginComponent},
+    {
+        path: "admin", component: AdminComponent, children: [
+            {path: "login", component: LoginComponent},
+            {path: 'usuario', component: UsuarioComponent},
+            {path: 'dashboard', component: DashboardComponent},
+            {path: "cliente", component: ClienteComponent},
+            {path: "fornecedor", component: FornecedorComponent},
+            {path: "produto", component: ProdutoComponent},
+            {path: "orcamento", component: OrcamentoComponent},
+
         ]
-    }
+    },
+    {path: "admin", loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)},
 ];
 
 @NgModule({
