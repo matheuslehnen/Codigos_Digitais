@@ -28,7 +28,6 @@ class OrcamentoRepository extends EntityRepository
     {
 
         $this->getEntityManager()->persist($orcamento);
-        //$this->getEntityManager()->merge($orcamento);
         $this->getEntityManager()->flush();
 
 

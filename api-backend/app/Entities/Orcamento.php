@@ -31,19 +31,19 @@ class Orcamento
     private $id;
 
     /**
-     * @ORM\ManyToOne (targetEntity="Cliente", cascade={"all"})
+     * @ORM\ManyToOne (targetEntity="Cliente")
      * @JoinColumn(name="cliente_id", referencedColumnName="id")
      */
     private $cliente;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Fornecedor", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Fornecedor")
      * @JoinColumn(name="fornecedor_id", referencedColumnName="id")
      */
     private $fornecedor;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Produto", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Produto")
      * @JoinColumn(name="produto_id", referencedColumnName="id")
      */
     private $produto;

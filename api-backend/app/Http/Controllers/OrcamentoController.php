@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Cliente;
-use App\Entities\Endereco;
-use App\Entities\Fornecedor;
 use App\Entities\Orcamento;
-use App\Entities\Produto;
+use App\Models\Repositories\ClienteRepository;
+use App\Models\Repositories\FornecedorRepository;
 use App\Models\Repositories\OrcamentoRepository;
+use App\Models\Repositories\ProdutoRepository;
 use Illuminate\Http\Request;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -17,13 +16,24 @@ use Symfony\Component\Serializer\Serializer;
 class OrcamentoController extends Controller
 {
     private OrcamentoRepository $orcamentoRepository;
+    private ClienteRepository $clienteRepository;
+    private FornecedorRepository $fornecedorRepository;
+    private ProdutoRepository $produtoRepository;
     private array $encoders;
     private array $normalizers;
     private Serializer $serializer;
 
-    public function __construct(OrcamentoRepository $orcamentoRepository)
+    public function __construct(
+        OrcamentoRepository $orcamentoRepository,
+        ClienteRepository $clienteRepository,
+        FornecedorRepository $fornecedorRepository,
+        ProdutoRepository $produtoRepository
+    )
     {
         $this->orcamentoRepository = $orcamentoRepository;
+        $this->clienteRepository = $clienteRepository;
+        $this->fornecedorRepository = $fornecedorRepository;
+        $this->produtoRepository = $produtoRepository;
         $this->encoders = array(new XmlEncoder(), new JsonEncoder());
         $this->normalizers = array(new GetSetMethodNormalizer());
         $this->serializer = new Serializer($this->normalizers, $this->encoders);
@@ -46,71 +56,21 @@ class OrcamentoController extends Controller
 
     public function create(Request $request)
     {
-        $orcamento = $this->converteOrcamento($request);
+        $cliente = $this->clienteRepository->find($request->input('cliente')['id']);
+        $fornecedor = $this->fornecedorRepository->find($request->input('fornecedor')['id']);
+        $produto = $this->produtoRepository->find($request->input('produto')['id']);
 
-        $orcamentoDto = $this->orcamentoRepository->save($orcamento);
-
-        return $this->serializer->serialize($orcamentoDto, 'json');
-
-    }
-
-    public function converteOrcamento(Request $request){
-
-        $clienteForm = $request->input('cliente');
-        $clienteEnderecoForm = $request->input('cliente')['endereco'];
-        $fornecedorForm = $request->input('fornecedor');
-        $fornecedorEnderecoForm = $request->input('fornecedor')['endereco'];
-        $produtoForm = $request->input('produto');
-
-        $clienteEndereco = new Endereco(
-            $clienteEnderecoForm['cep'],
-            $clienteEnderecoForm['logradouro'],
-            $clienteEnderecoForm['numero'],
-            $clienteEnderecoForm['bairro'],
-            $clienteEnderecoForm['localidade'],
-            $clienteEnderecoForm['uf'],
-        );
-        $clienteEndereco->setId($clienteEnderecoForm['id']);
-
-        $fornecedorEndereco = new Endereco(
-            $fornecedorEnderecoForm['cep'],
-            $fornecedorEnderecoForm['logradouro'],
-            $fornecedorEnderecoForm['numero'],
-            $fornecedorEnderecoForm['bairro'],
-            $fornecedorEnderecoForm['localidade'],
-            $fornecedorEnderecoForm['uf'],
-        );
-        $fornecedorEndereco->setId($fornecedorEnderecoForm['id']);
-
-        $cliente = new Cliente (
-            $clienteForm['cpfCnpj'],
-            $clienteForm['nome'],
-            $clienteForm['telefone'],
-            $clienteEndereco
-        );
-        $cliente->setId($clienteForm['id']);
-
-        $fornecedor = new Fornecedor(
-            $fornecedorForm['cpfCnpj'],
-            $fornecedorForm['nome'],
-            $fornecedorForm['telefone'],
-            $fornecedorEndereco
-        );
-        $fornecedor->setId($fornecedorForm['id']);
-
-
-        $produto = new Produto(
-            $produtoForm['titulo'],
-            $produtoForm['estoque']
-        );
-        $produto->setId($produtoForm['id']);
-
-        return new Orcamento(
+        $orcamento = new Orcamento(
             $cliente,
             $fornecedor,
             $produto,
             $request->input('quantidade'),
             $request->input('status'),
         );
+
+        $orcamentoDto = $this->orcamentoRepository->save($orcamento);
+
+        return $this->serializer->serialize($orcamentoDto, 'json');
     }
+
 }
