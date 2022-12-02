@@ -4,6 +4,7 @@ import {Subscription} from "rxjs";
 import {ApiService} from "../api/api.service";
 import {ViaCepService} from "../viaCep/via-cep.service";
 import {EnderecoDto} from "../../shared/model/dto/enderecoDto";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class FornecedorService {
     constructor(
         private apiService: ApiService,
         private formBuilder: FormBuilder,
+        private snackBar: MatSnackBar,
         private viaCepService: ViaCepService,
     ) {
         this.fornecedorFormGroup = this.formBuilder.group({
@@ -66,10 +68,12 @@ export class FornecedorService {
 
     submit(fornecedorFormGroup: FormGroup) {
         this.subscription$ = this.apiService.submitFornecedorFormGroup(fornecedorFormGroup)
-            .subscribe(response => {
-                console.log(response);
-                this.fornecedorFormGroup.reset();
-                window.scrollTo(0, 0);
+            .subscribe(fornecedorDto => {
+                if(fornecedorDto.id){
+                    this.snackBar.open('Fornecedor cadastrado com sucesso!')
+                    this.fornecedorFormGroup.reset();
+                    window.scrollTo(0, 0);
+                }
             })
     }
 

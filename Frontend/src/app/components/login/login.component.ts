@@ -28,5 +28,4 @@ export class LoginComponent implements OnInit {
     this.authService.login(loginFormGroup);
   }
 
-
 }

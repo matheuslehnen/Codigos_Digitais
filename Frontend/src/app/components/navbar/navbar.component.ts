@@ -121,7 +121,7 @@ export class NavbarComponent implements OnInit {
     getTitle() {
         const path = this.location.prepareExternalUrl(this.location.path());
         let title = path.split('/');
-        return this.listTitles.find(item => item.path == title[2]).path;
+        return this.listTitles.find(item => item.path == title[2])?.path;
     }
 
     logout() {

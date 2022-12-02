@@ -22,17 +22,10 @@ export const CustomMatRadioOptions: MatRadioDefaultOptions = {
 }
 
 export const CustomSnackBarOptions: MatSnackBarConfig = {
-    duration: 5000,
+    duration: 3000,
     panelClass: ['snackbar'],
 }
 
-// export const STATUS: string[] = [
-//     'PENDENTE',
-//     'ANDAMENTO',
-//     'AUTORIZADO',
-//     'CONCLUÍDO',
-//     'ENTREGUE'
-// ]
 
 export const ROUTES: RouteInfo[] = [
     { path: 'dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },

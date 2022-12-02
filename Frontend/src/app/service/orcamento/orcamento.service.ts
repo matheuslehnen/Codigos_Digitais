@@ -5,6 +5,8 @@ import {ProdutoDto} from "../../shared/model/dto/produtoDto";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Subject, Subscription} from "rxjs";
 import {ApiService} from "../api/api.service";
+import {OrcamentoDto} from "../../shared/model/dto/orcamentoDto";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +19,8 @@ export class OrcamentoService {
     fornecedores: FornecedorDto[];
     produto: ProdutoDto;
     produtos: ProdutoDto[];
+    orcamento: OrcamentoDto;
+    orcamentos: OrcamentoDto[];
     quantidade: number;
     status: string;
 
@@ -25,14 +29,18 @@ export class OrcamentoService {
     clientesEmitter = new Subject<ClienteDto[]>;
     fornecedoresEmitter = new Subject<FornecedorDto[]>;
     produtosEmitter = new Subject<ProdutoDto[]>;
+    orcamentosEmitter = new Subject<OrcamentoDto[]>;
+
     subscription$: Subscription;
     clientesSubscription$: Subscription;
     fornecedoresSubscription$: Subscription;
     produtosSubscription$: Subscription;
+    orcamentosSubscription$: Subscription;
 
     constructor(
         private apiService: ApiService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private snackBar: MatSnackBar
     ) {
         this.orcamentoFormGroup = this.formBuilder.group({
             cliente: [''],
@@ -49,10 +57,12 @@ export class OrcamentoService {
 
     submit(orcamentoFormGroup: FormGroup) {
         this.subscription$ = this.apiService.submitOrcamentoFormGroup(orcamentoFormGroup)
-            .subscribe(response => {
-                console.log(response);
-                this.orcamentoFormGroup.reset();
-                window.scrollTo(0, 0);
+            .subscribe(orcamentoDto => {
+                if(orcamentoDto.id){
+                    this.snackBar.open('Orcamento cadastrado com sucesso!');
+                    this.orcamentoFormGroup.reset();
+                    window.scrollTo(0, 0);
+                }
             })
     }
 
@@ -80,10 +90,12 @@ export class OrcamentoService {
             })
     }
 
-    ngOnDestroy(): void {
-        if (this.subscription$) {
-            this.subscription$.unsubscribe();
-        }
+    getOrcamentos() {
+        this.orcamentosSubscription$ = this.apiService.getOrcamentos()
+            .subscribe(orcamentosDto => {
+                this.orcamentos = orcamentosDto;
+                this.orcamentosEmitter.next(this.orcamentos)
+            })
     }
 
     getStatus() {
@@ -95,4 +107,23 @@ export class OrcamentoService {
             'Entregue'
         ];
     }
+
+    ngOnDestroy(): void {
+        if (this.subscription$) {
+            this.subscription$.unsubscribe();
+        }
+        if (this.clientesSubscription$) {
+            this.clientesSubscription$.unsubscribe();
+        }
+        if (this.fornecedoresSubscription$) {
+            this.fornecedoresSubscription$.unsubscribe();
+        }
+        if (this.produtosSubscription$) {
+            this.produtosSubscription$.unsubscribe();
+        }
+        if (this.orcamentosSubscription$) {
+            this.orcamentosSubscription$.unsubscribe();
+        }
+    }
+
 }

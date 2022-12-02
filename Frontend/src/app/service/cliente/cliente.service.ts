@@ -4,6 +4,7 @@ import {ApiService} from "../api/api.service";
 import {ViaCepService} from "../viaCep/via-cep.service";
 import {EnderecoDto} from "../../shared/model/dto/enderecoDto";
 import {Subscription} from "rxjs";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +17,7 @@ export class ClienteService implements OnDestroy {
     constructor(
         private apiService: ApiService,
         private formBuilder: FormBuilder,
+        private snackBar: MatSnackBar,
         private viaCepService: ViaCepService,
     ) {
         this.clienteFormGroup = this.formBuilder.group({
@@ -66,10 +68,12 @@ export class ClienteService implements OnDestroy {
 
     submit(clienteFormGroup: FormGroup) {
         this.subscription$ = this.apiService.submitClienteFormGroup(clienteFormGroup)
-            .subscribe(response => {
-                console.log(response);
-                this.clienteFormGroup.reset();
-                window.scrollTo(0, 0);
+            .subscribe(clienteDto => {
+                if(clienteDto.id){
+                    this.snackBar.open('Cliente cadastrado com sucesso!');
+                    this.clienteFormGroup.reset();
+                    window.scrollTo(0, 0);
+                }
             })
     }
 

@@ -9,6 +9,9 @@ import {EnderecoDto} from "../../shared/model/dto/enderecoDto";
 import {ClienteDto} from "../../shared/model/dto/clienteDto";
 import {FornecedorDto} from "../../shared/model/dto/fornecedorDto";
 import {ProdutoDto} from "../../shared/model/dto/produtoDto";
+import {OrcamentoDto} from "../../shared/model/dto/orcamentoDto";
+import {UsuarioDto} from "../../shared/model/dto/usuarioDto";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Injectable({
@@ -17,7 +20,10 @@ import {ProdutoDto} from "../../shared/model/dto/produtoDto";
 export class ApiService {
 
 
-    constructor(private http: HttpClient) {}
+    constructor(
+        private http: HttpClient,
+        private snackBar: MatSnackBar
+    ) {}
 
     submitLoginForm(formData: FormGroup): Observable<AcessoDto> {
         return this.http.post<AcessoDto>(environment.url + '/api/usuario/login', formData.value)
@@ -35,14 +41,27 @@ export class ApiService {
             .pipe(
                 take(1),
                 catchError(error => {
-                    console.log(error);
+                    this.snackBar.open('Erro ao tentar consultar o cep. Insira valores válidos');
                     return EMPTY;
                 })
             );
     }
 
-    submitUsuarioForm(formData: FormGroup): Observable<Response> {
-        return this.http.post<Response>(environment.url + '/api/usuario', formData.value)
+    submitUsuarioForm(formData: FormGroup): Observable<UsuarioDto> {
+        return this.http.post<UsuarioDto>(environment.url + '/api/usuario', formData.value)
+            .pipe(
+                take(1),
+                catchError(error => {
+                    if(error.status == 500){
+                        this.snackBar.open('Email já cadastrado');
+                    }
+                    return EMPTY;
+                })
+            )
+    }
+
+    getUsuarios() : Observable<UsuarioDto[]>{
+        return this.http.get<UsuarioDto[]>(environment.url + '/api/usuario')
             .pipe(
                 take(1),
                 catchError(error => {
@@ -52,8 +71,8 @@ export class ApiService {
             )
     }
 
-    submitClienteFormGroup(formData: FormGroup): Observable<Response> {
-        return this.http.post<Response>(environment.url + '/api/cliente', formData.value)
+    submitClienteFormGroup(formData: FormGroup): Observable<ClienteDto> {
+        return this.http.post<ClienteDto>(environment.url + '/api/cliente', formData.value)
             .pipe(
                 take(1),
                 catchError(error => {
@@ -74,8 +93,8 @@ export class ApiService {
             )
     }
 
-    submitFornecedorFormGroup(formData: FormGroup): Observable<Response> {
-        return this.http.post<Response>(environment.url + '/api/fornecedor', formData.value)
+    submitFornecedorFormGroup(formData: FormGroup): Observable<FornecedorDto> {
+        return this.http.post<FornecedorDto>(environment.url + '/api/fornecedor', formData.value)
             .pipe(
                 take(1),
                 catchError(error => {
@@ -97,8 +116,8 @@ export class ApiService {
     }
 
 
-    submitProdutoFormGroup(formData: FormGroup): Observable<Response> {
-        return this.http.post<Response>(environment.url + '/api/produto', formData.value)
+    submitProdutoFormGroup(formData: FormGroup): Observable<ProdutoDto> {
+        return this.http.post<ProdutoDto>(environment.url + '/api/produto', formData.value)
             .pipe(
                 take(1),
                 catchError(error => {
@@ -119,8 +138,8 @@ export class ApiService {
             )
     }
 
-    submitOrcamentoFormGroup(formData: FormGroup): Observable<Response> {
-        return this.http.post<Response>(environment.url + '/api/orcamento', formData.value)
+    submitOrcamentoFormGroup(formData: FormGroup): Observable<OrcamentoDto> {
+        return this.http.post<OrcamentoDto>(environment.url + '/api/orcamento', formData.value)
             .pipe(
                 take(1),
                 catchError(error => {
@@ -131,5 +150,15 @@ export class ApiService {
     }
 
 
+    getOrcamentos() : Observable<OrcamentoDto[]>{
+        return this.http.get<OrcamentoDto[]>(environment.url + '/api/orcamento')
+            .pipe(
+                take(1),
+                catchError(error => {
+                    console.log(error);
+                    return EMPTY;
+                })
+            )
+    }
 
 }

@@ -12,7 +12,7 @@ import {NgxMaskModule} from "ngx-mask";
 import {MatNativeDateModule} from "@angular/material/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {AppMaterialModule} from "./shared/app-material/app-material.module";
-import {CustomMaskConfig} from "../../constants";
+import {CustomMaskConfig, CustomSnackBarOptions} from "../../constants";
 import {AuthService} from "./service/auth/auth.service";
 import {ClienteService} from "./service/cliente/cliente.service";
 import {DashboardService} from "./service/dashboard/dashboard.service";
@@ -21,6 +21,7 @@ import {FornecedorService} from "./service/fornecedor/fornecedor.service";
 import {ProdutoService} from "./service/produto/produto.service";
 import {ViaCepService} from "./service/viaCep/via-cep.service";
 import {UsuarioService} from "./service/usuario/usuario.service";
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
 
 
 @NgModule({
@@ -51,7 +52,11 @@ import {UsuarioService} from "./service/usuario/usuario.service";
         OrcamentoService,
         ProdutoService,
         ViaCepService,
-        UsuarioService
+        UsuarioService,
+        {
+            provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+            useValue: CustomSnackBarOptions
+        },
     ],
     bootstrap: [AppComponent]
 })

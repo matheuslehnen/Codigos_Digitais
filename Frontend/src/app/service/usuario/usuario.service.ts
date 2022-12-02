@@ -27,10 +27,11 @@ export class UsuarioService implements OnDestroy {
 
     submit(usuarioFormGroup: FormGroup) {
         this.subscription$ = this.apiService.submitUsuarioForm(usuarioFormGroup)
-            .subscribe(response => {
-                console.log(response);
-                this.usuarioFormGroup.reset();
-                window.scrollTo(0, 0);
+            .subscribe(usuarioDto => {
+                if (usuarioDto.id) {
+                    this.usuarioFormGroup.reset();
+                    window.scrollTo(0, 0);
+                }
             })
     }
 

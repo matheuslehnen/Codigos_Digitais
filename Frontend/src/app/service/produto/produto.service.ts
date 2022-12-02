@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs";
 
 import {ApiService} from "../api/api.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,8 @@ export class ProdutoService {
 
     constructor(
         private apiService: ApiService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private snackBar: MatSnackBar
     ) {
         this.produtoFormGroup = this.formBuilder.group({
             titulo: [''],
@@ -28,10 +30,12 @@ export class ProdutoService {
 
     submit(produtoFormGroup: FormGroup) {
         this.subscription$ = this.apiService.submitProdutoFormGroup(produtoFormGroup)
-            .subscribe(response => {
-                console.log(response);
-                this.produtoFormGroup.reset();
-                window.scrollTo(0, 0);
+            .subscribe(produtoDto => {
+                if(produtoDto.id) {
+                    this.snackBar.open('Produto cadastrado com sucesso!');
+                    this.produtoFormGroup.reset();
+                    window.scrollTo(0, 0);
+                }
             })
     }
 
