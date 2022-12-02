@@ -27,7 +27,7 @@ export class AuthService implements OnDestroy {
     ) {
         this.loginForm = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
-            senha: ['', [Validators.required, Validators.maxLength(6)]],
+            senha: ['', Validators.required,]
         });
     }
 

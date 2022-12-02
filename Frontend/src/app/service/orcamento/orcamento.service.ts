@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {ChangeDetectorRef, Injectable} from '@angular/core';
 import {ClienteDto} from "../../shared/model/dto/clienteDto";
 import {FornecedorDto} from "../../shared/model/dto/fornecedorDto";
 import {ProdutoDto} from "../../shared/model/dto/produtoDto";
@@ -23,13 +23,15 @@ export class OrcamentoService {
     orcamentos: OrcamentoDto[];
     quantidade: number;
     status: string;
-
     orcamentoFormGroup: FormGroup;
-
+    countConcluido: number;
+    countEmAndamento: number;
+    countPendente: number;
     clientesEmitter = new Subject<ClienteDto[]>;
     fornecedoresEmitter = new Subject<FornecedorDto[]>;
     produtosEmitter = new Subject<ProdutoDto[]>;
     orcamentosEmitter = new Subject<OrcamentoDto[]>;
+    contadorOrcamentosEmitter = new Subject<any>;
 
     subscription$: Subscription;
     clientesSubscription$: Subscription;
@@ -40,7 +42,7 @@ export class OrcamentoService {
     constructor(
         private apiService: ApiService,
         private formBuilder: FormBuilder,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
     ) {
         this.orcamentoFormGroup = this.formBuilder.group({
             cliente: [''],
@@ -49,6 +51,9 @@ export class OrcamentoService {
             quantidade: [''],
             status: ['']
         })
+        this.countConcluido = 0;
+        this.countEmAndamento = 0;
+        this.countPendente = 0;
     }
 
     getFormGroup() {
@@ -93,8 +98,26 @@ export class OrcamentoService {
     getOrcamentos() {
         this.orcamentosSubscription$ = this.apiService.getOrcamentos()
             .subscribe(orcamentosDto => {
+                console.log(orcamentosDto)
                 this.orcamentos = orcamentosDto;
-                this.orcamentosEmitter.next(this.orcamentos)
+                this.orcamentos.forEach(item => {
+                    if(item.status.includes('Concluído')){
+                        this.countConcluido++;
+                    }
+                    if(item.status.includes('Pendente')){
+                        this.countPendente++;
+                    }
+                    if(item.status.includes('Em andamento')){
+                        this.countEmAndamento++;
+                    }
+                })
+                let contadorOrcamento = {
+                    countConcluido: this.countConcluido,
+                    countEmAndamento: this.countEmAndamento,
+                    countPendente: this.countPendente,
+                }
+                this.orcamentosEmitter.next(this.orcamentos);
+                this.contadorOrcamentosEmitter.next(contadorOrcamento);
             })
     }
 

@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     produtosSubscription$: Subscription;
     orcamentosSubscription$: Subscription;
     usuariosSubscription$: Subscription;
+    contadorOrcamentosSubscription$: Subscription;
 
     constructor(
         private orcamentoService: OrcamentoService,
@@ -50,12 +51,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.dashboardService.getProdutos();
         this.dashboardService.getOrcamentos();
         this.dashboardService.getUsuarios();
-        this.countConcluido = 0;
-        this.countEmAndamento = 0;
-        this.countPendente = 0;
-
-
-
         this.clientesSubscription$ = this.orcamentoService.clientesEmitter
             .subscribe(clientesDto => {
                 this.clientes = clientesDto;
@@ -69,27 +64,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.produtos = produtosDto;
             })
         this.orcamentosSubscription$ = this.orcamentoService.orcamentosEmitter
-            .subscribe(orcamentosDto => {
-                this.orcamentos = orcamentosDto;
-                this.orcamentos.forEach(item => {
-                    if(item.status.includes('Concluído')){
-                        this.countConcluido++;
-                    }
-                    if(item.status.includes('Pendente')){
-                        this.countPendente++;
-                    }
-                    if(item.status.includes('Em andamento')){
-                        this.countEmAndamento++;
-                    }
-                })
+            .subscribe(orcamentoDto => {
+                this.orcamentos = orcamentoDto;
+            })
+        this.contadorOrcamentosSubscription$ = this.orcamentoService.contadorOrcamentosEmitter
+            .subscribe(contadorOrcamento => {
+                this.countConcluido = contadorOrcamento.countConcluido;
+                this.countEmAndamento = contadorOrcamento.countEmAndamento;
+                this.countPendente = contadorOrcamento.countPendente;
             })
         this.usuariosSubscription$ = this.dashboardService.usuariosEmitter
             .subscribe(usuariosDto => {
                 this.usuarios = usuariosDto;
             })
-
-
-
 
         /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 

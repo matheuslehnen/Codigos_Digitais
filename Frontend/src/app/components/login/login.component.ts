@@ -9,9 +9,6 @@ import {AuthService} from "../../service/auth/auth.service";
 })
 export class LoginComponent implements OnInit {
 
-  @ViewChild('emailForm') emailForm: any;
-  @ViewChild('senha') senha: any;
-  @ViewChild('submitButton') submitButton: any;
   hide = true;
   enabled = false;
   loginFormGroup: FormGroup;

@@ -1,27 +1,35 @@
-import {Component, OnInit, ElementRef} from '@angular/core';
+import {Component, OnInit, ElementRef, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {Location} from '@angular/common';
 import {Router} from '@angular/router';
+import {Subscription} from "rxjs";
 
 import {ROUTES} from "../../../../constants";
 import {AuthService} from "../../service/auth/auth.service";
+import {OrcamentoService} from "../../service/orcamento/orcamento.service";
+
 
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
+
     private listTitles: any[];
     location: Location;
     mobile_menu_visible: any = 0;
     private toggleButton: any;
     private sidebarVisible: boolean;
+    countEmAndamento: number;
+    orcamentosSubscription$: Subscription;
 
     constructor(
         location: Location,
         private element: ElementRef,
         private router: Router,
-        private authService: AuthService
+        private authService: AuthService,
+        private orcamentoService: OrcamentoService,
+        private cdRef: ChangeDetectorRef
     ) {
         this.location = location;
         this.sidebarVisible = false;
@@ -39,6 +47,12 @@ export class NavbarComponent implements OnInit {
                 this.mobile_menu_visible = 0;
             }
         });
+        this.orcamentosSubscription$ = this.orcamentoService.contadorOrcamentosEmitter
+            .subscribe(contadorOrcamento => {
+                this.countEmAndamento = contadorOrcamento.countEmAndamento;
+                this.cdRef.detectChanges();
+            })
+
     }
 
     sidebarOpen() {
@@ -127,4 +141,11 @@ export class NavbarComponent implements OnInit {
     logout() {
         this.authService.logout();
     }
+
+    ngOnDestroy(): void {
+        if(this.orcamentosSubscription$){
+            this.orcamentosSubscription$.unsubscribe();
+        }
+    }
+
 }

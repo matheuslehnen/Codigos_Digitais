@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {OrcamentoService} from "../../service/orcamento/orcamento.service";
 import {ClienteDto} from "../../shared/model/dto/clienteDto";
@@ -31,7 +31,7 @@ export class OrcamentoComponent implements OnInit, OnDestroy {
 
 
     constructor(
-        private orcamentoService: OrcamentoService
+        private orcamentoService: OrcamentoService,
     ) {
     }
 
@@ -53,7 +53,6 @@ export class OrcamentoComponent implements OnInit, OnDestroy {
             .subscribe(produtosDto => {
                 this.produtos = produtosDto;
             })
-
     }
 
     onSubmit(orcamentoFormGroup: FormGroup) {
